@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.dao.UsersMapper">
+  <resultMap id="BaseResultMap" type="com.springmvc.entity.Users">
+    <result column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="phone" jdbcType="VARCHAR" property="phone"/>
+    <result column="usertype" jdbcType="VARCHAR" property="usertype"/>
+    <result column="comment" jdbcType="VARCHAR" property="comment"/>
+
+  </resultMap>
+  <insert id="insert" parameterType="com.springmvc.entity.Users">
+    insert into users(id,username,password,phone,usertype,comment)
+    values (#{id,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR },
+    #{password,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},
+    #{usertype,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.springmvc.entity.Users">
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="user != null">
+        USER,
+      </if>
+      <if test="currentConnections != null">
+        CURRENT_CONNECTIONS,
+      </if>
+      <if test="totalConnections != null">
+        TOTAL_CONNECTIONS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="user != null">
+        #{user,jdbcType=CHAR},
+      </if>
+      <if test="currentConnections != null">
+        #{currentConnections,jdbcType=BIGINT},
+      </if>
+      <if test="totalConnections != null">
+        #{totalConnections,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="select" resultType="com.springmvc.entity.Users">
+    select * from users
+  </select>
+  <select id="selectSome" parameterType="String" resultType="com.springmvc.entity.Users">
+    select * from users
+    WHERE username BETWEEN #{first} AND #{end}
+  </select>
+  <insert id="insertAll" parameterType="java.util.List">
+    insert into users
+    (username,password,phone,usertype,comment)
+    values
+    <foreach collection="list" item="users" separator=",">
+      (
+      #{users.username},#{users.password},
+      #{users.phone},#{users.usertype},
+      #{users.comment}
+      )
+    </foreach>
+  </insert>
+  <delete id="deleteById" parameterType="String">
+    delete from users where id = #{id}
+  </delete>
+  <update id="updateById"  parameterType="com.springmvc.entity.Users">
+    update users
+    <set>
+      <if test="username != null">username=#{username},</if>
+      <if test="password != null">password=#{password},</if>
+      <if test="phone != null">phone=#{phone},</if>
+      <if test="usertype != null">usertype=#{usertype},</if>
+      <if test="comment != null">comment=#{comment}</if>
+    </set>
+    where id = #{id}
+  </update>
+  <select id="selectById" resultType="com.springmvc.entity.Users" parameterType="com.springmvc.entity.Users">
+    select * from users
+    where id = #{id}
+  </select>
+  <insert id="insertOne" parameterType="com.springmvc.entity.Users">
+    insert into users
+    (id,username,password,phone,usertype,comment)
+    values (#{id},#{username},
+    #{password},#{phone},
+    #{usertype},#{comment})
+  </insert>
+  <select id="selectOne" parameterType="com.springmvc.entity.Users" resultType="com.springmvc.entity.Users">
+    select * from users
+    where id = #{id}
+  </select>
+  <select id="login" parameterType="com.springmvc.entity.Users" resultType="com.springmvc.entity.Users">
+    select * from users
+    where id = #{id} AND password = #{password}
+
+  </select>
+</mapper>

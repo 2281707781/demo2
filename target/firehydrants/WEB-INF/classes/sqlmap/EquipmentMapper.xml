@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springmvc.dao.EquipmentMapper" >
+    <resultMap id="BaseResultMap" type="com.springmvc.entity.Equipment">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="devicename" property="devicename" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="devicetype" property="devicetype" jdbcType="VARCHAR"/>
+        <result column="nbiot_Gprs" property="nbiot_Gprs" jdbcType="VARCHAR" />
+        <result column="positions" property="positions" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="serviceman1" property="serviceman1" jdbcType="VARCHAR"/>
+        <result column="serviceman2" property="serviceman2" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.springmvc.entity.Equipment">
+        insert into (id,devicename,version,devicetype,nbiot_Gprs,positions,state,serviceman1,serviceman2,address,comment)
+        values (#{id,jdbcType=VARCHAR},#{devicename,jdbcType=VARCHAR},
+        #{version,jdbcType=VARCHAR},#{devicetype,jdbcType=VARCHAR},
+        #{nbiot_Gprs,jdbcType=VARCHAR},#{positions,jdbcType=VARCHAR},
+        #{state,jdbcType=VARCHAR},#{serviceman1,jdbcType=VARCHAR},
+        #{serviceman2,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},
+        #{comment,jdbcType=VARCHAR})
+    </insert>
+    <select id="selectAll" resultType="com.springmvc.entity.Equipment">
+        select * from equipment
+    </select>
+    <select id="selectOnrById" resultType="com.springmvc.entity.Equipment">
+        select * from equipment
+        where id = #{id}
+    </select>
+    <select id="selectOneById" resultType="com.springmvc.entity.Equipment">
+        select * from equipment
+        where id = #{id}
+    </select>
+    <insert id="insertOne" parameterType="com.springmvc.entity.Equipment">
+        insert into equipment(id,devicename,version,devicetype,NBIOT_GPRS,positions,state,serviceman1,serviceman2,address,comment)
+        values (#{id},#{devicename},#{version},
+        #{devicetype},#{nbiot_Gprs},#{positions},
+        #{state},#{serviceman1},#{serviceman2},
+        #{address},#{comment})
+    </insert>
+    <update id="updateOne" parameterType="com.springmvc.entity.Equipment">
+        update equipment
+        <set>
+            <if test="devicename != null">devicename=#{devicename},</if>
+            <if test="version != null">version=#{version},</if>
+            <if test="devicetype != null">devicetype=#{devicetype},</if>
+            <if test="nbiot_Gprs != null">NBIOT_GPRS=#{nbiot_Gprs},</if>
+            <if test="positions != null">positions=#{positions},</if>
+            <if test="state != null">state=#{state},</if>
+            <if test="serviceman1 != null">serviceman1=#{serviceman1},</if>
+            <if test="serviceman2 != null">serviceman2=#{serviceman2},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="comment != null">comment=#{comment}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <insert id="insertAll" parameterType="com.springmvc.entity.Equipment">
+        insert into equipment
+        (id,devicename,version,devicetype,NBIOT_GPRS,positions,state,serviceman1,serviceman2,address,comment)
+        values
+        <foreach collection="list" item="equipments" separator=",">
+            (
+            #{equipments.id},#{equipments.devicename},#{equipments.version},
+            #{equipments.devicetype},#{equipments.nbiot_Gprs},#{equipments.positions},
+            #{equipments.state},#{equipments.serviceman1},#{equipments.serviceman2},
+            #{equipments.address},#{equipments.comment}
+            )
+        </foreach>
+    </insert>
+</mapper>

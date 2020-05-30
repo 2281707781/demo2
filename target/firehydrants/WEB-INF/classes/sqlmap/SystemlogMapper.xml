@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springmvc.dao.SystemlogMapper" >
+  <resultMap id="BaseResultMap" type="com.springmvc.entity.Systemlog" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="logname" property="logname" jdbcType="VARCHAR" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.springmvc.entity.Systemlog" >
+    insert into systemlog (id, createtime, userid, 
+      logname, message)
+    values (#{id,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=VARCHAR}, 
+      #{logname,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.entity.Systemlog" >
+    insert into systemlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="logname != null" >
+        logname,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="logname != null" >
+        #{logname,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="select" resultType="com.springmvc.entity.Systemlog" parameterType="com.springmvc.entity.Systemlog">
+    select * from systemlog
+    where userid = #{userid}
+  </select>
+  <delete id="deleteById" parameterType="com.springmvc.entity.Systemlog">
+    delete from systemlog where id = #{id}
+  </delete>
+  <select id="selectOne" resultType="com.springmvc.entity.Systemlog" parameterType="com.springmvc.entity.Systemlog">
+    select * from systemlog where id = #{id}
+  </select>
+  <insert id="insertOne" parameterType="com.springmvc.entity.Systemlog">
+    insert into systemlog (id, createtime, userid,
+      logname, message)
+    values (#{id}, #{createtime}, #{userid},
+      #{logname}, #{message})
+  </insert>
+</mapper>

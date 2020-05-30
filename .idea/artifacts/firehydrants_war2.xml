@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="firehydrants:war2">
+    <output-path>$PROJECT_DIR$/out/artifacts/firehydrants_war2</output-path>
+    <root id="archive" name="firehydrants_war.war">
+      <element id="artifact" artifact-name="firehydrants:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springmvc.dao.InformationMapper" >
+  <resultMap id="BaseResultMap1" type="com.springmvc.entity.Information" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="datecreatetime" property="datecreatetime" jdbcType="TIMESTAMP" />
+    <result column="equipmentid" property="equipmentid" jdbcType="VARCHAR" />
+    <result column="pressure" property="pressure" jdbcType="INTEGER" />
+    <result column="inclination" property="inclination" jdbcType="DOUBLE" />
+    <result column="state" property="state" jdbcType="BIT" />
+    <result column="flowmeter" property="flowmeter" jdbcType="BIT" />
+    <result column="temperature" property="temperature" jdbcType="DOUBLE" />
+    <result column="battery" property="battery" jdbcType="INTEGER" />
+    <result column="contain1" property="contain1" jdbcType="VARCHAR" />
+    <result column="contain2" property="contain2" jdbcType="VARCHAR" />
+    <result column="contain3" property="contain3" jdbcType="VARCHAR" />
+    <association property="equipment" javaType="com.springmvc.entity.Equipment">
+      <result column="devicename" property="devicename" jdbcType="VARCHAR"/>
+      <result column="version" property="version" jdbcType="VARCHAR"/>
+      <result column="devicetype" property="devicetype" jdbcType="VARCHAR"/>
+      <result column="nbiot_Gprs" property="nbiot_Gprs" jdbcType="VARCHAR" />
+      <result column="positions" property="positions" jdbcType="VARCHAR"/>
+      <result column="state" property="state" jdbcType="VARCHAR"/>
+      <result column="serviceman1" property="serviceman1" jdbcType="VARCHAR"/>
+      <result column="serviceman2" property="serviceman2" jdbcType="VARCHAR"/>
+      <result column="address" property="address" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <insert id="insert" parameterType="com.springmvc.entity.Information" >
+    insert into information (id, datecreatetime, equipmentid, 
+      pressure, inclination, state, 
+      flowmeter, temperature, battery, 
+      contain1, contain2, contain3
+      )
+    values (#{id,jdbcType=INTEGER}, #{datecreatetime,jdbcType=TIMESTAMP}, #{equipmentid,jdbcType=VARCHAR}, 
+      #{pressure,jdbcType=INTEGER}, #{inclination,jdbcType=DOUBLE}, #{state,jdbcType=BIT}, 
+      #{flowmeter,jdbcType=BIT}, #{temperature,jdbcType=DOUBLE}, #{battery,jdbcType=INTEGER}, 
+      #{contain1,jdbcType=VARCHAR}, #{contain2,jdbcType=VARCHAR}, #{contain3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.entity.Information" >
+    insert into information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="datecreatetime != null" >
+        datecreatetime,
+      </if>
+      <if test="equipmentid != null" >
+        equipmentid,
+      </if>
+      <if test="pressure != null" >
+        pressure,
+      </if>
+      <if test="inclination != null" >
+        inclination,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="flowmeter != null" >
+        flowmeter,
+      </if>
+      <if test="temperature != null" >
+        temperature,
+      </if>
+      <if test="battery != null" >
+        battery,
+      </if>
+      <if test="contain1 != null" >
+        contain1,
+      </if>
+      <if test="contain2 != null" >
+        contain2,
+      </if>
+      <if test="contain3 != null" >
+        contain3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="datecreatetime != null" >
+        #{datecreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentid != null" >
+        #{equipmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="pressure != null" >
+        #{pressure,jdbcType=INTEGER},
+      </if>
+      <if test="inclination != null" >
+        #{inclination,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=BIT},
+      </if>
+      <if test="flowmeter != null" >
+        #{flowmeter,jdbcType=BIT},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=DOUBLE},
+      </if>
+      <if test="battery != null" >
+        #{battery,jdbcType=INTEGER},
+      </if>
+      <if test="contain1 != null" >
+        #{contain1,jdbcType=VARCHAR},
+      </if>
+      <if test="contain2 != null" >
+        #{contain2,jdbcType=VARCHAR},
+      </if>
+      <if test="contain3 != null" >
+        #{contain3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectNewDate" resultType="com.springmvc.entity.Information">
+    select * from information
+    where equipmentid=#{equipmentid}
+    ORDER BY datecreatetime
+    limit 1
+  </select>
+  <select id="selectSomeById" parameterType="com.springmvc.entity.Information" resultType="com.springmvc.entity.Information">
+    select * from information
+    where equipmentid=#{equipmentid} AND datecreatetime BETWEEN #{date1} AND #{date2}
+  </select>
+  <insert id="insertOne" parameterType="com.springmvc.entity.Information">
+    insert into information (id, datecreatetime, equipmentid,
+      pressure, inclination, state,
+      flowmeter, temperature, battery,
+      contain1, contain2, contain3
+      )
+    values (#{id,jdbcType=INTEGER}, #{datecreatetime,jdbcType=TIMESTAMP}, #{equipmentid,jdbcType=VARCHAR},
+      #{pressure,jdbcType=INTEGER}, #{inclination,jdbcType=DOUBLE}, #{state,jdbcType=BIT},
+      #{flowmeter,jdbcType=BIT}, #{temperature,jdbcType=DOUBLE}, #{battery,jdbcType=INTEGER},
+      #{contain1,jdbcType=VARCHAR}, #{contain2,jdbcType=VARCHAR}, #{contain3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertAll" parameterType="java.util.List">
+    insert into information (id, datecreatetime, equipmentid,
+    pressure, inclination, state,
+    flowmeter, temperature, battery,
+    contain1, contain2, contain3
+    )
+    values
+    <foreach collection="list" item="informations" separator=",">
+      (#{informations.id,jdbcType=INTEGER}, #{informations.datecreatetime,jdbcType=TIMESTAMP}, #{informations.equipmentid,jdbcType=VARCHAR},
+      #{informations.pressure,jdbcType=INTEGER}, #{informations.inclination,jdbcType=DOUBLE}, #{informations.state,jdbcType=BIT},
+      #{informations.flowmeter,jdbcType=BIT}, #{informations.temperature,jdbcType=DOUBLE}, #{informations.battery,jdbcType=INTEGER},
+      #{informations.contain1,jdbcType=VARCHAR}, #{informations.contain2,jdbcType=VARCHAR}, #{informations.contain3,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <delete id="delete" parameterType="com.springmvc.entity.Information">
+    delete from information
+    where equipmentid=#{equipmentid} AND
+    datecreatetime between #{dateTime} AND #{endTime}
+  </delete>
+</mapper>
