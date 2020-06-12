@@ -67,4 +67,7 @@
     values (#{id}, #{createtime}, #{userid},
       #{logname}, #{message})
   </insert>
+  <select id="selectAll" parameterType="com.springmvc.entity.Systemlog" resultType="com.springmvc.entity.Systemlog">
+    select * from systemlog
+  </select>
 </mapper>

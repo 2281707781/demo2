@@ -17,4 +17,6 @@ public interface SystemlogMapper {
     List<Systemlog> selectOne(@Param("id") String id);
 
     boolean insertOne(Systemlog systemlog);
+
+    List<Systemlog> selectAll();
 }

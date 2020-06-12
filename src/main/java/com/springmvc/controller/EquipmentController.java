@@ -65,7 +65,7 @@ public class EquipmentController {
         JSONArray jsonArray = new JSONArray();
         List<Equipment> equipment = equipmentService.selectAll();
         for(int i = 0;i < equipment.size();i++){
-            jsonArray.add(equipment);
+            jsonArray.add(equipment.get(i));
         }
         return jsonArray;
     }
@@ -178,12 +178,16 @@ public class EquipmentController {
             return false;
         }
     }
+    //用于检测设备是否存在
     public List<Equipment> selectOne(String id){
         return  equipmentService.selectOneByid(id);
     }
+    //根据编号删除某一条设备
     @ResponseBody
     @RequestMapping(value = "deleteOne",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
     public boolean deleteOne(@RequestBody JSONObject param){
-        return true;
+        JSONObject jsonObject = JSONObject.fromObject(param);
+        boolean result = equipmentService.deleteOne(jsonObject.get("id"));
+        return result;
     }
 }

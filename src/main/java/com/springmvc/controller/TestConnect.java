@@ -20,7 +20,8 @@ public class TestConnect {
     @Test
     public static void main(String[] args) throws Exception {
         String url = "http://47.95.214.173:8096/getList";
-        getData(url);
+        String result = getData(url);
+        System.out.println(result);
     }
 
     public static String getData(String urlString) throws Exception {
@@ -31,17 +32,15 @@ public class TestConnect {
             URL url = new URL(urlString);
             URLConnection conn = (URLConnection) url.openConnection();
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            System.out.println("创建url!");
+
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println("分别获取每行内容！：" + line);
                 res += line;
             }
             reader.close();
         } catch (Exception e) {
             e.getMessage();
         }
-        System.out.println(res);
         return res;
     }
 }

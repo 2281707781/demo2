@@ -27,4 +27,6 @@ public interface UsersMapper {
     Users selectOne(@Param("id") String id);
 
     List<Users> login(@Param("id") String id,@Param("password") String password);
+
+    void createTable(@Param("table") String table);
 }

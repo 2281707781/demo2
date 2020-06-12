@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" id="510231c8-c268-4da4-ba5c-6c30f89ea9c0" customName="腾讯晕" nameFormat="CUSTOM" />
+    </configs>
+  </component>
+</project>

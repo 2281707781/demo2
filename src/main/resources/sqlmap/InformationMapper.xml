@@ -118,17 +118,17 @@
     </trim>
   </insert>
   <select id="selectNewDate" resultType="com.springmvc.entity.Information">
-    select * from information
+    select * from ${table}
     where equipmentid=#{equipmentid}
     ORDER BY datecreatetime
     limit 1
   </select>
   <select id="selectSomeById" parameterType="com.springmvc.entity.Information" resultType="com.springmvc.entity.Information">
-    select * from information
+    select * from ${table}
     where equipmentid=#{equipmentid} AND datecreatetime BETWEEN #{date1} AND #{date2}
   </select>
   <insert id="insertOne" parameterType="com.springmvc.entity.Information">
-    insert into information (id, datecreatetime, equipmentid,
+    insert into ${table} (id, datecreatetime, equipmentid,
       pressure, inclination, state,
       flowmeter, temperature, battery,
       contain1, contain2, contain3
@@ -140,7 +140,7 @@
       )
   </insert>
   <insert id="insertAll" parameterType="java.util.List">
-    insert into information (id, datecreatetime, equipmentid,
+    insert into ${table} (id, datecreatetime, equipmentid,
     pressure, inclination, state,
     flowmeter, temperature, battery,
     contain1, contain2, contain3
@@ -155,8 +155,25 @@
     </foreach>
   </insert>
   <delete id="delete" parameterType="com.springmvc.entity.Information">
-    delete from information
+    delete from ${table}
     where equipmentid=#{equipmentid} AND
     datecreatetime between #{dateTime} AND #{endTime}
   </delete>
+  <update id="createTable" parameterType="String">
+    CREATE TABLE ${id}  (
+      `id` int(12) NOT NULL AUTO_INCREMENT COMMENT '序号',
+      `datecreatetime` datetime(0) NULL DEFAULT NULL COMMENT '数据采集时间',
+      `equipmentid` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消防栓编号',
+      `pressure` int(10) NULL DEFAULT NULL COMMENT '设备水压',
+      `inclination` double(6, 2) NULL DEFAULT NULL COMMENT '倾斜角度',
+      `state` tinyint(1) NULL DEFAULT NULL COMMENT '阀开状态',
+      `flowmeter` tinyint(1) NULL DEFAULT NULL COMMENT '设备流量',
+      `temperature` double(6, 2) NULL DEFAULT NULL COMMENT '设备水温',
+      `battery` int(6) NULL DEFAULT NULL COMMENT '设备电量',
+      `contain1` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '保留1',
+      `contain2` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '保留2\r\n\r\n',
+      `contain3` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '保留3',
+      PRIMARY KEY (`id`) USING BTREE
+      ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  </update>
 </mapper>

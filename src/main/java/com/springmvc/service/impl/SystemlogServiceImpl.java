@@ -37,4 +37,9 @@ public class SystemlogServiceImpl implements SystemlogService {
     public boolean insertOne(Systemlog systemlog) {
         return systemlogMapper.insertOne(systemlog);
     }
+
+    @Override
+    public List<Systemlog> selectAll() {
+        return systemlogMapper.selectAll();
+    }
 }

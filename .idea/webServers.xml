@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a0c1a1ce-67d1-44ee-a180-bdd82147ece2" name="腾讯晕" url="http://49.235.201.184:8080/">
+        <fileTransfer accessType="SFTP" sshConfigId="510231c8-c268-4da4-ba5c-6c30f89ea9c0" sshConfig="腾讯晕">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

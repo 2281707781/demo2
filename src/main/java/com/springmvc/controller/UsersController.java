@@ -111,13 +111,12 @@ public class UsersController {
         jsonObject1.put("commenr",user.getComment());
         return jsonObject1;
     }
-    /*@Test
-    public void test(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id","12");
-        select();
-        //System.out.println(result);
-    }*/
+    @Test
+    public void test1(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray = select();
+        System.out.println(jsonArray);
+    }
     //查询全部用户信息
     @ResponseBody
     @RequestMapping(value = "select",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
@@ -125,7 +124,8 @@ public class UsersController {
         JSONArray jsonArray = new JSONArray();
         List<Users> users = userService.select();
         for (int i = 0;i < users.size();i++){
-            jsonArray.add(users);
+
+            jsonArray.add(users.get(i));
         }
         return jsonArray;
     }

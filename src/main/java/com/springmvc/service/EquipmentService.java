@@ -20,4 +20,6 @@ public interface EquipmentService {
     boolean updateOne(Equipment equipment);
 
     boolean insertAll(List<Equipment> equipments);
+
+    boolean deleteOne(Object id);
 }

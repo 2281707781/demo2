@@ -47,4 +47,9 @@ public class EquipmentServiceImpl implements EquipmentService {
     public boolean insertAll(List<Equipment> equipments) {
         return equipmentMapper.insertAll(equipments);
     }
+
+    @Override
+    public boolean deleteOne(Object id) {
+        return  true;
+    }
 }

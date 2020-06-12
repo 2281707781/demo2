@@ -19,27 +19,32 @@ public class InformationServiceImpl implements InformationService {
     private InformationMapper informationMapper;
 
     @Override
-    public Information selectNewDate(String equipmentid) {
-        return informationMapper.selectNewDate(equipmentid);
+    public Information selectNewDate(String equipmentid,String table) {
+        return informationMapper.selectNewDate(equipmentid,table);
     }
 
     @Override
-    public List<Information> selectSomeById(Date date1, Date date2, String id) {
-        return informationMapper.selectSomeById(date1,date2,id);
+    public List<Information> selectSomeById(Date date1, Date date2, String equipmentid,String table) {
+        return informationMapper.selectSomeById(date1,date2,equipmentid,table);
     }
 
     @Override
-    public int insertOne(Information information) {
-        return informationMapper.insertOne(information);
+    public int insertOne(Information information,String table) {
+        return informationMapper.insertOne(information,table);
     }
 
     @Override
-    public int insertAll(List<Information> informations) {
-        return informationMapper.insertAll(informations);
+    public int insertAll(List<Information> informations,String table) {
+        return informationMapper.insertAll(informations,table);
     }
 
     @Override
-    public boolean deleteAll(Date dateTime, Date endTime, String id) {
-        return informationMapper.delete(dateTime,endTime,id);
+    public boolean deleteAll(Date dateTime, Date endTime, String equipmentid,String table) {
+        return informationMapper.delete(dateTime,endTime,equipmentid,table);
+    }
+
+    @Override
+    public boolean createTable(String id) {
+        return informationMapper.createTable(id);
     }
 }

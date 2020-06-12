@@ -26,4 +26,6 @@ public interface UserService {
     Users selectOne(String id);
 
     List<Users> login(String id, String password);
+
+    void createTable(String table);
 }

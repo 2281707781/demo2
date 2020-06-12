@@ -19,4 +19,6 @@ public interface SystemlogService {
     List<Systemlog> selectOne(String id);
 
     boolean insertOne(Systemlog systemlog);
+
+    List<Systemlog> selectAll();
 }

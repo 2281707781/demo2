@@ -41,7 +41,7 @@ public class SystemlogController {
         List<Systemlog> systemlogs = systemlogService.select(jsonObject.getString("userid"));
 
         for(int i = 0;i < systemlogs.size();i++){
-            jsonArray.add(systemlogs);
+            jsonArray.add(systemlogs.get(i));
         }
         return jsonArray;
     }
@@ -96,5 +96,20 @@ public class SystemlogController {
     private List<Systemlog> selectOne(String id) {
         List<Systemlog> systemlogs = systemlogService.selectOne(id);
         return systemlogs;
+    }
+    @ResponseBody
+    @RequestMapping(value = "selectAll",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public JSONArray selectAll(){
+        JSONArray jsonArray = new JSONArray();
+        List<Systemlog> systemlogs = systemlogService.selectAll();
+        for (int i = 0;i < systemlogs.size();i++){
+            jsonArray.add(systemlogs.get(i));
+        }
+        return jsonArray;
+    }
+    @Test
+    public void test1(){
+        JSONArray jsonArray = selectAll();
+        System.out.println(jsonArray);
     }
 }

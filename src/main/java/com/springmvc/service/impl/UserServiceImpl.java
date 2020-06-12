@@ -61,4 +61,9 @@ public class UserServiceImpl implements UserService {
     public List<Users> login(String id, String password) {
         return usersMapper.login(id,password);
     }
+
+    @Override
+    public void createTable(String table) {
+        usersMapper.createTable(table);
+    }
 }

@@ -70,6 +70,7 @@ public class UsersMapperTest {
     }
     @Test
     public void test(){
-
+        String table = "test";
+        userService.createTable(table);
     }
 }

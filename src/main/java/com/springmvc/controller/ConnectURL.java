@@ -15,14 +15,16 @@ import java.net.URL;
 @Controller
 public class ConnectURL {
     @Test
-    public void test(){
-        HttpServletRequest request = null;
+    public void test() throws Exception {
+        getList();
     }
     //获取在线设备 无参数
     @RequestMapping("getList")
-    public void getList(HttpServletRequest request) throws Exception {
-        String url = "http://47.95.214.173:8096/getList";
-        TestConnect.getData(url);
+    public void getList() throws Exception {
+        String url = "http://47.95.214.173:8095/getList";
+        String result = TestConnect.getData(url);
+        System.out.println(result.toString());
+
     }
 
     /**
@@ -31,8 +33,9 @@ public class ConnectURL {
      * 查询水表使用，由于不能立刻获取，会暂时返回
      */
     @RequestMapping("queryMeter")
-    public void queryMeter(){
-
+    public void queryMeter() throws Exception {
+        String url = "http://47.95.214.173:8095/queryMeter";
+        String result = TestConnect.getData(url);
     }
     /*
         接受隔段时间返回查询的数据

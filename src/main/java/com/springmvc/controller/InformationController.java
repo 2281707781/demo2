@@ -33,13 +33,17 @@ import java.util.List;
 public class InformationController {
     @Resource
     private InformationService informationService;
+
     //根据设备编号，查询最新消防栓监测信息
     @ResponseBody
     @RequestMapping(value = "selectNewDate",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
     public JSONObject selectNewDate(@RequestBody JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         Information information = new Information();
-        information = informationService.selectNewDate(jsonObject.getString("equipmentid"));
+        String table = "information"+jsonObject.get("equipmentid");
+        System.out.println(table);
+        information = informationService.selectNewDate(jsonObject.getString("equipmentid"),table);
+        System.out.println(information);
         jsonObject.put("id",information.getId());
         jsonObject.put("datecreatetime",information.getDatecreatetime());
         jsonObject.put("equipment",information.getEquipmentid());
@@ -54,13 +58,13 @@ public class InformationController {
         jsonObject.put("contain3",information.getContain3());
         return jsonObject;
     }
-
+    //根据设备编号，给出指定时间段，查询出在这个时间段数据
     @ResponseBody
     @RequestMapping(value = "selectSomeById",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
     public JSONArray selectSomeById(@RequestBody JSONObject param) throws Exception {
         JSONObject jsonObject = JSONObject.fromObject(param);
         JSONArray jsonArray = new JSONArray();
-        String id = jsonObject.getString("id");
+        String equipmentid = jsonObject.getString("equipmentid");
         //first String to Date
         String time = jsonObject.getString("startTime");
         String time1 = jsonObject.getString("endTime");
@@ -70,30 +74,23 @@ public class InformationController {
         //Date to DateTime
         Date dateTime =  new Date(timeBegin.getTime());
         Date endTime =  new Date(timeEnd.getTime());
-        List<Information> informations = informationService.selectSomeById(dateTime,endTime,id);
+        List<Information> informations = informationService.selectSomeById(dateTime,endTime,equipmentid,"information"+equipmentid);
         //System.out.println(informations);
         for (int i = 0;i < informations.size();i++){
            //System.out.println(informations);
-            jsonArray.add(informations);
+            jsonArray.add(informations.get(i));
         }
         return jsonArray;
     }
-    @Test
-    public void insertOne(){
-        Information information = new Information();
-        information.setId(4);
-        information.setBattery(1);
-        int result = informationService.insertOne(information);
+    //插入，这个接口与；预留给硬件
+    public void insertOne(Information information){
+        String table = "information"+information.getEquipmentid();
+        int result = informationService.insertOne(information,table);
     }
-    @Test
-    public void insertAll(){
-        List<Information> informations = new ArrayList<Information>();
-        for (int i = 5;i < 7;i++){
-            Information information = new Information();
-            information.setId(i);
-            informations.add(information);
-        }
-        int result = informationService.insertAll(informations);
+    //插入多条数据
+    public void insertAll(List<Information> informations){
+        String table = "information"+informations.get(0).getEquipmentid();
+        int result = informationService.insertAll(informations,table);
     }
     @Test
     public void test() throws Exception {
@@ -104,11 +101,12 @@ public class InformationController {
         boolean result = deleteAll(jsonObject);
         //System.out.println(jsonArray);
     }
+    //根据设备编号，某个时间段，删除数据
     @ResponseBody
     @RequestMapping(value = "deleteAll",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
     public boolean deleteAll(@RequestBody JSONObject param) throws ParseException {
         JSONObject jsonObject = JSONObject.fromObject(param);
-        String id = jsonObject.getString("id");
+        String equipmentid = jsonObject.getString("equipmentid");
         //first String to Date
         String time = jsonObject.getString("startTime");
         String time1 = jsonObject.getString("endTime");
@@ -118,15 +116,16 @@ public class InformationController {
         //Date to DateTime
         Date dateTime =  new Date(timeBegin.getTime());
         Date endTime =  new Date(timeEnd.getTime());
-        boolean result = informationService.deleteAll(dateTime,endTime,id);
+        boolean result = informationService.deleteAll(dateTime,endTime,equipmentid,"information"+equipmentid);
         return result;
     }
+    //将数据导出到excal
     @ResponseBody
     @RequestMapping(value = "selectByIdToExcal",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
     public boolean selectByIdToExcal(@RequestBody JSONObject param) throws ParseException {
         JSONObject jsonObject = JSONObject.fromObject(param);
         JSONArray jsonArray = new JSONArray();
-        String id = jsonObject.getString("id");
+        String equipmentid = jsonObject.getString("equipmentid");
         //first String to Date
         String time = jsonObject.getString("startTime");
         String time1 = jsonObject.getString("endTime");
@@ -136,8 +135,23 @@ public class InformationController {
         //Date to DateTime
         Date dateTime =  new Date(timeBegin.getTime());
         Date endTime =  new Date(timeEnd.getTime());
-        List<Information> informations = informationService.selectSomeById(dateTime,endTime,id);
+        List<Information> informations = informationService.selectSomeById(dateTime,endTime,equipmentid,"information"+equipmentid);
         //System.out.println(informations);
         return ImportExcel.exportExcel(informations);
+    }
+    //创建表
+    @ResponseBody
+    @RequestMapping(value = "createTable",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    public boolean createTable(@RequestBody JSONObject param){
+        JSONObject jsonObject = JSONObject.fromObject(param);
+        boolean result = informationService.createTable("information"+jsonObject.getString("id"));
+        return true;
+    }
+    @Test
+    public void test1(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id","123");
+        boolean result = createTable(jsonObject);
+        System.out.println(result);
     }
 }
