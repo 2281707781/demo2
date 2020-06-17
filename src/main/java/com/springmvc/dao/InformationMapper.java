@@ -15,7 +15,7 @@ public interface InformationMapper {
 
     List<Information> selectSomeById(@Param("date1") Date date1, @Param("date2") Date date2, @Param("equipmentid") String equipment,@Param("table") String table);
 
-    int insertOne(Information information,@Param("table") String table);
+    int insertOne(@Param("information") Information information,@Param("table") String table);
 
     int insertAll(List<Information> informations,@Param("table") String table);
 

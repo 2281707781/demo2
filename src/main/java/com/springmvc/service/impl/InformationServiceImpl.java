@@ -46,5 +46,6 @@ public class InformationServiceImpl implements InformationService {
     @Override
     public boolean createTable(String id) {
         return informationMapper.createTable(id);
+
     }
 }

@@ -11,8 +11,8 @@
     <title>用户添加界面</title>
 </head>
 <body>
-    <form action="${pageContext.request.contextPath}/admin/uploads" method="post" enctype="multipart/form-data">
-        <input type="file" name="fileUpload" />
+    <form action="${pageContext.request.contextPath}/equipment/insertAll" method="post" enctype="multipart/form-data">
+        <input type="file" name="uploadFile" />
         <input type="submit" value="上传文件" />
     </form>
 </body>

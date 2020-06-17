@@ -24,6 +24,7 @@
   </properties>
 
   <dependencies>
+
     <!-- spring核心包 -->
     <!-- springframe start -->
     <dependency>

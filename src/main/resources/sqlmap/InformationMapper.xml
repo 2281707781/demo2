@@ -128,15 +128,13 @@
     where equipmentid=#{equipmentid} AND datecreatetime BETWEEN #{date1} AND #{date2}
   </select>
   <insert id="insertOne" parameterType="com.springmvc.entity.Information">
-    insert into ${table} (id, datecreatetime, equipmentid,
+    insert into ${table} ( datecreatetime, equipmentid,
       pressure, inclination, state,
-      flowmeter, temperature, battery,
-      contain1, contain2, contain3
+      flowmeter, temperature, battery
       )
-    values (#{id,jdbcType=INTEGER}, #{datecreatetime,jdbcType=TIMESTAMP}, #{equipmentid,jdbcType=VARCHAR},
-      #{pressure,jdbcType=INTEGER}, #{inclination,jdbcType=DOUBLE}, #{state,jdbcType=BIT},
-      #{flowmeter,jdbcType=BIT}, #{temperature,jdbcType=DOUBLE}, #{battery,jdbcType=INTEGER},
-      #{contain1,jdbcType=VARCHAR}, #{contain2,jdbcType=VARCHAR}, #{contain3,jdbcType=VARCHAR}
+    values ( #{information.datecreatetime}, #{information.equipmentid},
+      #{information.pressure}, #{information.inclination}, #{information.state},
+      #{information.flowmeter}, #{information.temperature}, #{information.battery}
       )
   </insert>
   <insert id="insertAll" parameterType="java.util.List">

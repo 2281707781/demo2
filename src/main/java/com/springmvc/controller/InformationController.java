@@ -1,6 +1,7 @@
 package com.springmvc.controller;
 
 import com.springmvc.entity.Information;
+import com.springmvc.interceptor.ReadVarchar;
 import com.springmvc.service.InformationService;
 import com.springmvc.utils.ImportExcel;
 import net.sf.json.JSONArray;
@@ -83,10 +84,20 @@ public class InformationController {
         return jsonArray;
     }
     //插入，这个接口与；预留给硬件
-    public void insertOne(Information information){
+    @ResponseBody
+    @RequestMapping(
+            value = {"insertOne"},
+            method = {RequestMethod.POST},
+            produces = {"appllcation/json;charset=UTF-8"}
+    )
+    public void insertOne(String msg){
+        Information information = ReadVarchar.readVarchar(msg);
+        System.out.print(information);
         String table = "information"+information.getEquipmentid();
         int result = informationService.insertOne(information,table);
+        System.out.println(result);
     }
+
     //插入多条数据
     public void insertAll(List<Information> informations){
         String table = "information"+informations.get(0).getEquipmentid();
@@ -142,16 +153,10 @@ public class InformationController {
     //创建表
     @ResponseBody
     @RequestMapping(value = "createTable",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
-    public boolean createTable(@RequestBody JSONObject param){
-        JSONObject jsonObject = JSONObject.fromObject(param);
-        boolean result = informationService.createTable("information"+jsonObject.getString("id"));
+    public boolean createTable(@RequestBody String id){
+
+        boolean result = informationService.createTable("information"+id);
         return true;
     }
-    @Test
-    public void test1(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id","123");
-        boolean result = createTable(jsonObject);
-        System.out.println(result);
-    }
+
 }

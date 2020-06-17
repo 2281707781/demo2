@@ -3,6 +3,8 @@ package com.springmvc.controller;
 import com.springmvc.entity.Equipment;
 import com.springmvc.entity.Users;
 import com.springmvc.service.EquipmentService;
+import com.springmvc.service.InformationService;
+import com.springmvc.service.impl.InformationServiceImpl;
 import com.springmvc.utils.ImportExcel;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,8 @@ public class EquipmentController {
 
     @Resource
     private EquipmentService equipmentService;
+    @Resource
+    private InformationService informationService;
     //查询设备信息，一条
     @ResponseBody
     @RequestMapping(value = "selectOneById",method= RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
@@ -57,10 +62,14 @@ public class EquipmentController {
         jsonObject.put("comment",equipment.getComment());
         return jsonObject;
     }
-
+    @Test
+    public void test1(){
+        JSONArray jsonArray = selectAll();
+        System.out.println(jsonArray);
+    }
     //查询所有设备
     @ResponseBody
-    @RequestMapping(value = "selectAll",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "selectAll",method = RequestMethod.POST)
     public JSONArray selectAll(){
         JSONArray jsonArray = new JSONArray();
         List<Equipment> equipment = equipmentService.selectAll();
@@ -145,7 +154,7 @@ public class EquipmentController {
     //批量添加设备
     @ResponseBody
     @RequestMapping(value = "insertAll",method = RequestMethod.POST)
-    public boolean insertAll(@RequestParam("uploadFile") MultipartFile uploadFile){
+    public boolean insertAll(@RequestParam MultipartFile uploadFile){
         try {
             String fileName = uploadFile.getOriginalFilename();
             // 获取上传文件的输入流
@@ -164,12 +173,14 @@ public class EquipmentController {
                 equipment.setAddress(var.get(4).toString());
                 equipment.setNbiot_Gprs(var.get(5).toString());
                 equipment.setPositions(var.get(6).toString());
-                equipment.setState(Integer.parseInt(var.get(7).toString()));
+                equipment.setState(1);
                 equipment.setServiceman1(var.get(8).toString());
                 equipment.setServiceman2(var.get(9).toString());
                 equipment.setComment(var.get(10).toString());
                 if(selectOne(var.get(0).toString()).isEmpty()){
                    equipments.add(equipment);
+                   boolean results = informationService.createTable("information"+equipment.getId());
+
                 }
             }
             boolean result = equipmentService.insertAll(equipments);
