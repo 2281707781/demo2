@@ -1,5 +1,6 @@
 package com.springmvc.service.impl;
 
+import com.springmvc.dao.EquipmentMapper;
 import com.springmvc.dao.InformationMapper;
 import com.springmvc.entity.Information;
 import com.springmvc.service.InformationService;
@@ -17,15 +18,24 @@ import java.util.List;
 public class InformationServiceImpl implements InformationService {
     @Autowired
     private InformationMapper informationMapper;
+    @Autowired
+    private EquipmentMapper equipmentMapper;
 
+    Information information = new Information();
     @Override
     public Information selectNewDate(String equipmentid,String table) {
-        return informationMapper.selectNewDate(equipmentid,table);
+        information =  informationMapper.selectNewDate(equipmentid,table);
+        information.setEquipment(equipmentMapper.selectOnrById(information.getEquipmentid()));
+        return information;
     }
 
     @Override
     public List<Information> selectSomeById(Date date1, Date date2, String equipmentid,String table) {
-        return informationMapper.selectSomeById(date1,date2,equipmentid,table);
+        List<Information>  informations = informationMapper.selectSomeById(date1,date2,equipmentid,table);
+        for (Information str : informations){
+            str.setEquipment(equipmentMapper.selectOnrById(str.getEquipmentid()));
+        }
+        return informations;
     }
 
     @Override

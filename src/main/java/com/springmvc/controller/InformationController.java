@@ -57,8 +57,19 @@ public class InformationController {
         jsonObject.put("contain1",information.getContain1());
         jsonObject.put("contain2",information.getContain2());
         jsonObject.put("contain3",information.getContain3());
+        jsonObject.put("devicename",information.getEquipment().getDevicename());
+        jsonObject.put("version",information.getEquipment().getVersion());
+        jsonObject.put("devicetype",information.getEquipment().getDevicetype());
+        jsonObject.put("nbiot_Gprs",information.getEquipment().getNbiot_Gprs());
+        jsonObject.put("positions",information.getEquipment().getPositions());
+        jsonObject.put("state",information.getEquipment().getState());
+        jsonObject.put("serviceman1",information.getEquipment().getServiceman1());
+        jsonObject.put("serviceman2",information.getEquipment().getServiceman2());
+        jsonObject.put("address",information.getEquipment().getAddress());
+        jsonObject.put("comment",information.getEquipment().getComment());
         return jsonObject;
     }
+
     //根据设备编号，给出指定时间段，查询出在这个时间段数据
     @ResponseBody
     @RequestMapping(value = "selectSomeById",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
