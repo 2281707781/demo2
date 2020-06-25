@@ -44,7 +44,7 @@ public class EquipmentController {
     private InformationService informationService;
     //查询设备信息，一条
     @ResponseBody
-    @RequestMapping(value = "selectOneById",method= RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "selectOneById",method= RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public JSONObject selectOneByid(@RequestBody JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         //赋值，查询
@@ -81,7 +81,7 @@ public class EquipmentController {
 
     //添加设备
     @ResponseBody
-    @RequestMapping(value = "insertOne",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "insertOne",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public boolean insertOne(@RequestBody JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         //查询该消防栓编号是否存在
@@ -108,7 +108,7 @@ public class EquipmentController {
     }
     //修改设备信息
     @ResponseBody
-    @RequestMapping(value = "update",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "update",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public boolean update(@RequestBody JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         //查询该消防栓编号是否存在
@@ -195,7 +195,7 @@ public class EquipmentController {
     }
     //根据编号删除某一条设备
     @ResponseBody
-    @RequestMapping(value = "deleteOne",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "deleteOne",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public boolean deleteOne(@RequestBody JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         boolean result = equipmentService.deleteOne(jsonObject.get("id"));

@@ -22,4 +22,6 @@ public interface InformationMapper {
     boolean delete(@Param("dateTime") Date dateTime,@Param("endTime") Date endTime,@Param("equipmentid") String equipment,@Param("table") String table);
 
     boolean createTable(@Param("id") String id);
+
+    List<Information> selectAll();
 }

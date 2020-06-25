@@ -30,7 +30,7 @@ public class ReadVarchar {
         String[] result = var.split(",");
         //压力倾斜角度阀开状态流量电压
         information.setPressure(Integer.valueOf(result[0]));
-        information.setInclination(Double.parseDouble(result[0]));
+        information.setInclination(Double.parseDouble(result[1]));
         if (result[2] == "0") {
             information.setState(false);
         } else{

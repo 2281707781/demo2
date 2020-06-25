@@ -21,4 +21,6 @@ public interface InformationService {
     boolean deleteAll(Date dateTime, Date endTime, String equipmentid ,String table);
 
     boolean createTable(String id);
+
+    List<Information> selectAll();
 }

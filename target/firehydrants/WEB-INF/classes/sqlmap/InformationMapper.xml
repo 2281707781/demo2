@@ -174,4 +174,7 @@
       PRIMARY KEY (`id`) USING BTREE
       ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
   </update>
+  <select id="selectAll" parameterType="com.springmvc.entity.Information" resultType="com.springmvc.entity.Information">
+    select * from information
+  </select>
 </mapper>

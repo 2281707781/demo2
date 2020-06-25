@@ -33,7 +33,7 @@ public class AlermlogController {
     private AlermlogService alermlogService;
     //查询所有报警日志
     @ResponseBody
-    @RequestMapping(value = "selectAll",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "selectAll",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public JSONArray selectAll(){
         JSONArray jsonArray = new JSONArray();
         List<Alermlog> alermlogs = alermlogService.selectAll();
@@ -44,7 +44,7 @@ public class AlermlogController {
     }
     //插入一条报警日志
     @ResponseBody
-    @RequestMapping(value = "insert",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "insert",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public boolean insert(JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         Alermlog alermlog = new Alermlog();
@@ -56,7 +56,7 @@ public class AlermlogController {
     }
     //根据编号删除报警日志
     @ResponseBody
-    @RequestMapping(value = "delete",method = RequestMethod.POST,produces = "appllcation/json;charset=UTF-8")
+    @RequestMapping(value = "delete",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public boolean delete(JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         boolean result = alermlogService.delete(param.getInt("id"));
