@@ -7,8 +7,8 @@
     <result column="equipmentid" property="equipmentid" jdbcType="VARCHAR" />
     <result column="pressure" property="pressure" jdbcType="INTEGER" />
     <result column="inclination" property="inclination" jdbcType="DOUBLE" />
-    <result column="state" property="state" jdbcType="BIT" />
-    <result column="flowmeter" property="flowmeter" jdbcType="BIT" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="flowmeter" property="flowmeter" jdbcType="INTEGER" />
     <result column="temperature" property="temperature" jdbcType="DOUBLE" />
     <result column="battery" property="battery" jdbcType="INTEGER" />
     <result column="contain1" property="contain1" jdbcType="VARCHAR" />
@@ -33,8 +33,8 @@
       contain1, contain2, contain3
       )
     values (#{id,jdbcType=INTEGER}, #{datecreatetime,jdbcType=TIMESTAMP}, #{equipmentid,jdbcType=VARCHAR}, 
-      #{pressure,jdbcType=INTEGER}, #{inclination,jdbcType=DOUBLE}, #{state,jdbcType=BIT}, 
-      #{flowmeter,jdbcType=BIT}, #{temperature,jdbcType=DOUBLE}, #{battery,jdbcType=INTEGER}, 
+      #{pressure,jdbcType=INTEGER}, #{inclination,jdbcType=DOUBLE}, #{state,jdbcType=INTEGER},
+      #{flowmeter,jdbcType=INTEGER}, #{temperature,jdbcType=DOUBLE}, #{battery,jdbcType=INTEGER},
       #{contain1,jdbcType=VARCHAR}, #{contain2,jdbcType=VARCHAR}, #{contain3,jdbcType=VARCHAR}
       )
   </insert>
@@ -95,10 +95,10 @@
         #{inclination,jdbcType=DOUBLE},
       </if>
       <if test="state != null" >
-        #{state,jdbcType=BIT},
+        #{state,jdbcType=INTEGER},
       </if>
       <if test="flowmeter != null" >
-        #{flowmeter,jdbcType=BIT},
+        #{flowmeter,jdbcType=INTEGER},
       </if>
       <if test="temperature != null" >
         #{temperature,jdbcType=DOUBLE},
@@ -120,7 +120,7 @@
   <select id="selectNewDate" resultType="com.springmvc.entity.Information">
     select * from ${table}
     where equipmentid=#{equipmentid}
-    ORDER BY datecreatetime
+    ORDER BY datecreatetime desc
     limit 1
   </select>
   <select id="selectSomeById" parameterType="com.springmvc.entity.Information" resultType="com.springmvc.entity.Information">
@@ -146,8 +146,8 @@
     values
     <foreach collection="list" item="informations" separator=",">
       (#{informations.id,jdbcType=INTEGER}, #{informations.datecreatetime,jdbcType=TIMESTAMP}, #{informations.equipmentid,jdbcType=VARCHAR},
-      #{informations.pressure,jdbcType=INTEGER}, #{informations.inclination,jdbcType=DOUBLE}, #{informations.state,jdbcType=BIT},
-      #{informations.flowmeter,jdbcType=BIT}, #{informations.temperature,jdbcType=DOUBLE}, #{informations.battery,jdbcType=INTEGER},
+      #{informations.pressure,jdbcType=INTEGER}, #{informations.inclination,jdbcType=DOUBLE}, #{informations.state,jdbcType=INTEGER},
+      #{informations.flowmeter,jdbcType=INTEGER}, #{informations.temperature,jdbcType=DOUBLE}, #{informations.battery,jdbcType=INTEGER},
       #{informations.contain1,jdbcType=VARCHAR}, #{informations.contain2,jdbcType=VARCHAR}, #{informations.contain3,jdbcType=VARCHAR}
       )
     </foreach>
@@ -164,8 +164,8 @@
       `equipmentid` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消防栓编号',
       `pressure` int(10) NULL DEFAULT NULL COMMENT '设备水压',
       `inclination` double(6, 2) NULL DEFAULT NULL COMMENT '倾斜角度',
-      `state` tinyint(1) NULL DEFAULT NULL COMMENT '阀开状态',
-      `flowmeter` tinyint(1) NULL DEFAULT NULL COMMENT '设备流量',
+      `state` int(5) NULL DEFAULT NULL COMMENT '阀开状态',
+      `flowmeter` int(5) NULL DEFAULT NULL COMMENT '设备流量',
       `temperature` double(6, 2) NULL DEFAULT NULL COMMENT '设备水温',
       `battery` int(6) NULL DEFAULT NULL COMMENT '设备电量',
       `contain1` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '保留1',
@@ -177,4 +177,14 @@
   <select id="selectAll" parameterType="com.springmvc.entity.Information" resultType="com.springmvc.entity.Information">
     select * from information
   </select>
+  <select id="selectByTime" parameterType="com.springmvc.entity.Information" resultType="com.springmvc.entity.Information">
+    select * from ${s} where datecreatetime &lt; #{m} ;
+  </select>
+  <delete id="deleteToTime" parameterType="com.springmvc.entity.Information">
+    delete from ${id} where datecreatetime &lt; #{m}
+  </delete>
+  <insert id="insertOnes" >
+    insert into testdata(msg,createtime)
+    values (#{msg},#{start})
+  </insert>
 </mapper>

@@ -14,9 +14,9 @@ public class Information {
     //倾斜角度
     private Double inclination;
     //阀开状态
-    private Boolean state;
+    private int state;
     //流量
-    private Boolean flowmeter;
+    private int flowmeter;
     //水温
     private Double temperature;
     //电量
@@ -70,19 +70,19 @@ public class Information {
         this.inclination = inclination;
     }
 
-    public Boolean getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(int state) {
         this.state = state;
     }
 
-    public Boolean getFlowmeter() {
+    public int getFlowmeter() {
         return flowmeter;
     }
 
-    public void setFlowmeter(Boolean flowmeter) {
+    public void setFlowmeter(int flowmeter) {
         this.flowmeter = flowmeter;
     }
 

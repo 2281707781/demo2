@@ -5,6 +5,7 @@ import com.springmvc.service.UserService;
 import com.springmvc.utils.ImportExcel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -72,5 +73,9 @@ public class UsersMapperTest {
     public void test(){
         String table = "test";
         userService.createTable(table);
+    }
+    @Scheduled(cron = "0 10 0 1 * ?")
+    public  void myTest(){
+        System.out.println("数据已被处理");
     }
 }

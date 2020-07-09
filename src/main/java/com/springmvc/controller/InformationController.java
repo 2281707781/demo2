@@ -1,7 +1,10 @@
 package com.springmvc.controller;
 
+import com.springmvc.entity.Alermlog;
 import com.springmvc.entity.Information;
+import com.springmvc.entity.Systemlog;
 import com.springmvc.interceptor.ReadVarchar;
+import com.springmvc.service.AlermlogService;
 import com.springmvc.service.InformationService;
 import com.springmvc.utils.ImportExcel;
 import net.sf.json.JSONArray;
@@ -9,16 +12,15 @@ import net.sf.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +36,8 @@ import java.util.List;
 @Controller
 public class InformationController {
     @Resource
+    private AlermlogService alermlogService;
+    @Resource
     private InformationService informationService;
 
     //根据设备编号，查询最新消防栓监测信息
@@ -42,7 +46,7 @@ public class InformationController {
     public JSONObject selectNewDate(@RequestBody JSONObject param){
         JSONObject jsonObject = JSONObject.fromObject(param);
         Information information = new Information();
-        String table = "information"+jsonObject.get("equipmentid");
+        String table = "information"+jsonObject.getString("equipmentid");
 
         information = informationService.selectNewDate(jsonObject.getString("equipmentid"),table);
 
@@ -99,18 +103,62 @@ public class InformationController {
     @ResponseBody
     @RequestMapping(
             value = {"insertOne"},
-            method = {RequestMethod.POST},
+            method = {RequestMethod.GET},
             produces = {"application/json;charset=UTF-8"}
     )
-    public void insertOne(@RequestBody String msg){
-        System.out.print(msg);
-        Information information = ReadVarchar.readVarchar(msg);
-        System.out.println(information.getInclination().toString());
-        System.out.println(information.getInclination()+"--");
-        System.out.print(information);
-        String table = "information"+information.getEquipmentid();
-        int result = informationService.insertOne(information,table);
-        System.out.println(result);
+    public String insertOne(@RequestParam String msg) throws Exception {
+
+            //boolean re = true;
+            Information information = ReadVarchar.readVarchar(msg);
+            System.out.println(information);
+            String table = "information"+information.getEquipmentid();
+            boolean re = ReadVarchar.adjustVarchar(information);
+            System.out.println(re);
+            if (re){
+                int result = informationService.insertOne(information,table);
+                return "插入成功";
+            }else {
+                Alermlog alermlog = new Alermlog();
+                Date date = new Date();
+                alermlog.setCreatetime(date);
+                alermlog.setComment("设备导入数据异常");
+                boolean res = alermlogService.insert(alermlog);
+                return "插入失败";
+            }
+
+
+    }
+    //插入，这个接口与；预留给硬件
+    @ResponseBody
+    @RequestMapping(
+            value = {"insertOnes"},
+            method = {RequestMethod.GET},
+            produces = {"application/json;charset=UTF-8"}
+    )
+    public String insertOnes(@RequestParam String msg) throws Exception {
+        Date start = new Date();
+        boolean result = informationService.insertOnes(msg,start);
+        if (result){
+            return "1";
+        }else {
+            return "0";
+        }
+    }
+    //插入，这个接口与；预留给硬件
+    @ResponseBody
+    @RequestMapping(
+            value = {"insertOnes"},
+            method = {RequestMethod.GET},
+            produces = {"application/json;charset=UTF-8"}
+    )
+    public String insertOne2(@RequestParam String msg,@RequestParam String id) throws Exception {
+        Date start = new Date();
+        boolean result = informationService.insertOnes(msg+id,start);
+        if (result){
+            return "1";
+        }else {
+            return "0";
+        }
     }
 
     //插入多条数据
@@ -207,10 +255,23 @@ public class InformationController {
         System.out.println(jsonArray);
         return jsonArray;
     }
+    @Scheduled(cron = "0 10 0 1 * ?")
+    public void download(){
+        List<Information> informations = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        //过去一月
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -1);
+        Date m = c.getTime();
+        informationService.selectByTime(m);
+        informationService.deleteToNow(m);
+    }
     @Test
     public void test() throws Exception {
-        JSONArray jsonArray = selectAll();
-        System.out.println(jsonArray.toString());
-        //System.out.println(jsonArray);
+        String msg = "msg=0000005+02+03+0004+05&id=0002020613";
+        System.out.println("-----------");
+        String s = insertOne(msg);
+        System.out.println(s);
     }
 }

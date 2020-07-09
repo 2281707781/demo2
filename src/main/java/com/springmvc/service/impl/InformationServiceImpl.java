@@ -5,9 +5,13 @@ import com.springmvc.dao.InformationMapper;
 import com.springmvc.entity.Equipment;
 import com.springmvc.entity.Information;
 import com.springmvc.service.InformationService;
+import com.springmvc.utils.DataToExcel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +26,8 @@ public class InformationServiceImpl implements InformationService {
     private InformationMapper informationMapper;
     @Autowired
     private EquipmentMapper equipmentMapper;
-
+    @Resource
+    private DataToExcel dataToExcel;
     Information information = new Information();
     @Override
     public Information selectNewDate(String equipmentid,String table) {
@@ -74,5 +79,33 @@ public class InformationServiceImpl implements InformationService {
             informations.add(information);
         }
         return informations;
+    }
+
+    @Override
+    public void selectByTime(Date m) {
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String str = sf.format(date);
+        List<Equipment> equipment = new ArrayList<>();
+        List<Information> informations = new ArrayList<>();
+        equipment = equipmentMapper.selectAll();
+        for (int i = 0;i < equipment.size();i++){
+            informations = informationMapper.selectByTime(m,"information"+equipment.get(i).getId());
+            dataToExcel.dataToExcel(str+equipment.get(i).getId(),informations);
+        }
+    }
+
+    @Override
+    public void deleteToNow(Date m) {
+        List<Equipment> equipment = new ArrayList<>();
+        equipment = equipmentMapper.selectAll();
+        for (int i = 0;i < equipment.size();i++){
+            informationMapper.deleteToTime(m,"information"+equipment.get(i).getId());
+        }
+    }
+
+    @Override
+    public boolean insertOnes(String msg, Date start) {
+        return informationMapper.insertOnes(msg,start);
     }
 }

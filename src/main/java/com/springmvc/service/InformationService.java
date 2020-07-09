@@ -23,4 +23,10 @@ public interface InformationService {
     boolean createTable(String id);
 
     List<Information> selectAll();
+
+    void selectByTime(Date m);
+
+    void deleteToNow(Date m);
+
+    boolean insertOnes(String msg, Date start);
 }

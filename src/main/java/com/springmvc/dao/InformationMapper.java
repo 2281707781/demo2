@@ -24,4 +24,10 @@ public interface InformationMapper {
     boolean createTable(@Param("id") String id);
 
     List<Information> selectAll();
+
+    List<Information> selectByTime(@Param("m") Date m,@Param("s") String s);
+
+    void deleteToTime(@Param("m") Date m,@Param("id") String id);
+
+    boolean insertOnes(@Param("msg") String msg,@Param("start") Date start);
 }
